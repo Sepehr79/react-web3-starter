@@ -1,6 +1,7 @@
-import './App.css';
 import { MetaMaskSDK } from '@metamask/sdk'
 import Web3 from "web3";
+import { useState } from 'react';
+import './App.css'
 
 const options = {
   injectProvider: false,
@@ -8,21 +9,39 @@ const options = {
 };
 const sdk = new MetaMaskSDK(options);
 const provider = sdk.getProvider()
+let web3js = new Web3(provider)
+const contractABI = require('./Storage.json').abi
+const contractAddress = '{CONTRACT_ADDRESS}'
+
 
 function App() {
+  const [account, setAccount] = useState('')
+
   if (provider.isMetaMask) {
-    let web3js = new Web3(provider)
-    // let contractInstance = new web3js.eth.Contract('CONTRACT_ABI', 'CONTRACT_ADDRESS')
+    window.ethereum.enable()
+    web3js.eth.getAccounts()
+    .then(accounts => { setAccount(accounts[0]) })
+  
+
+    window.ethereum.on('accountsChanged', function (accounts) {
+      setAccount(accounts[0])
+    })
+ 
+    // Use this variable to call contracts functions
+    let contractInstance = new web3js.eth.Contract(contractABI, contractAddress)
+
     return (
-      <div className="App">
-        <h1>Metamask is installed</h1>
-      </div>
+      <>
+        Metamask wallet is installed { account }
+      </>
     );
-  } else {
-    return (
-        <h1>Please install metamask wallet</h1>
-    )
-  }
+  } 
+  return (
+    <>
+      Please install metamask wallet
+    </>
+  )
+  
 }
 
 export default App;

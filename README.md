@@ -5,14 +5,18 @@ and web3 library
 you can learn more about web3 library at [cryptozombies.io](https://cryptozombies.io/en/lesson/6/chapter/1)
 
 ## How to start
-First clone the project
+1. Clone the project
 
 ```
 git clone https://github.com/Sepehr79/react-web3-starter.git
 ```
 
-Install dependencies
+2. Install dependencies
 
 ```
 npm install
 ```
+
+3. Set your contract address at /src/App.js
+
+4. Start the server using npm start
